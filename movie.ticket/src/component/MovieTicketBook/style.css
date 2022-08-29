@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+body {
+    background: url(../../../public/image/banner.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.header {
+    font-size: 4.5vw !important;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin: 0.8em 1vw;
+    text-shadow: 4px 3px 1px rgb(0 0 0 / 22%);
+}
