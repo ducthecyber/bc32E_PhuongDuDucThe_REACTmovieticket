@@ -4,6 +4,7 @@ import Footer from './Footer'
 import Header from './Header'
 import SiderBar from './SiderBar'
 import './style.css'
+import './BaiTapBookingTicket.css'
 
 export default class Movie extends Component {
     render() {
