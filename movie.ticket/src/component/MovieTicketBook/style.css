@@ -138,7 +138,129 @@ body {
     opacity: 1;
 }
 
-#sidebar.active{
+#sidebar.active {
     display: block;
     opacity: 1;
+}
+
+.inner-content {
+    background: rgba(128, 128, 128, 0.34);
+    padding: 3.5vw;
+    width: 100%;
+}
+
+.input-form h2 {
+    color: #ff9800;
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    text-align: left;
+}
+
+.form-group label {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.form-group input {
+    background: transparent;
+    border: 0.5px solid #888686;
+    padding: 2rem;
+    font-size: 1.5rem;
+    color: white !important;
+}
+
+.input-form button {
+    color: black !important;
+    font-size: 1.5rem;
+    font-weight: 600 !important;
+    padding: 0.25rem 1.5rem;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    letter-spacing: 0.1rem;
+}
+
+.inner-content .seat-status {
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.inner-content .seat-status .smallBox {
+    /* display: inline-block; */
+    color: white;
+    margin-right: 2.5rem;
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 1.5rem;
+    justify-content: center;
+    display: flex;
+    justify-content: left;
+}
+
+.inner-content .seat-status .smallBox::before {
+    content: '';
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.inner-content .seat-status .greenBox::before {
+    background: green;
+}
+
+.inner-content .seat-status .redBox::before {
+    background: red;
+}
+
+.inner-content .seat-status .emptyBox::before {
+    background: white;
+    box-shadow: 2px -14px 0px -4px rgb(255 152 0 / 75%);
+    -webkit-box-shadow: 0px -2px 0px 0.5px rgb(255 152 0);
+}
+
+.seat-structure td {
+    width: 40px;
+    font-weight: 600;
+    font-size: 1em;
+    padding-top: 7px;
+    height: 24px;
+    color: #fff;
+
+}
+
+.seat-structure td input {
+    width: 0px;
+    margin-right: 2.063rem;
+    cursor: pointer;
+}
+
+.gheDuocChon {
+    border: 3px solid orange;
+
+    background: orange;
+    color: #000;
+
+    cursor: no-drop !important;
+    border-radius: 5px;
+    width: 45px;
+    height: 35px;
+}
+
+.seat-structure td button {
+    content: "";
+    width: 35px;
+    height: 25px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    /* -moz-border-radius: 5px; */
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    border: 3px solid #ff9800;
+    /* box-shadow: inset 0px 2px 3px 0px rgb(0 0 0 / 30%), 0px 1px 0px 0px rgb(255 255 255 / 80%);
+    -moz-box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8); */
+    -webkit-box-shadow: inset 0px 2px 3px 0px rgb(0 0 0 / 30%), 0px 1px 0px 0px rgb(255 255 255 / 80%);
+    background: white;
 }
