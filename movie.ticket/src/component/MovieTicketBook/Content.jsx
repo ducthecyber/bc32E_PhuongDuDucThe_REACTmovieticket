@@ -8,10 +8,23 @@ export default class Content extends Component {
   renderHangGhe = () => {
     return (
       data.map((hangGhe, index) => {
-        if (index >=0) {
+        if (index >= 1 && index < 6) {
           return (
-            <Fragment key={index}>
-              <HangGhe hangGhe={hangGhe} />
+            <Fragment key={index} >
+              <HangGhe hangGhe={hangGhe} soHangGhe={index} />
+            </Fragment>
+          )
+        }
+      })
+    )
+  }
+  renderHangGhe1 = () => {
+    return (
+      data.map((hangGhe, index) => {
+        if (index >= 6) {
+          return (
+            <Fragment key={index} >
+              <HangGhe hangGhe={hangGhe} soHangGhe={index} />
             </Fragment>
           )
         }
@@ -49,35 +62,77 @@ export default class Content extends Component {
             <li className="smallBox emptyBox">Empty Seat</li>
           </ul>
           <div className="seat-structure">
-            <table className="seatTable text-center">
+            <table className="seatTable text-center ml-5">
               <tbody>
-                {/* <tr className='d-flex align-items-center mt-3'>
+                <tr className='d-flex align-items-center mt-3' style={{ justifyContent: 'space-between', marginRight: '10px' }}>
                   <td></td>
-                  <td style={{ marginRight: '10px' }}>1</td>
-                  <td style={{ marginRight: '10px' }}>2</td>
-                  <td style={{ marginRight: '10px' }}>3</td>
-                  <td style={{ marginRight: '10px' }}>4</td>
-                  <td style={{ marginRight: '10px' }}>5</td>
-                  <td style={{ marginRight: '10px' }}>6</td>
-                  <td style={{ marginRight: '10px' }}>7</td>
-                  <td style={{ marginRight: '10px' }}>8</td>
-                  <td style={{ marginRight: '10px' }}>9</td>
-                  <td style={{ marginRight: '10px' }}>10</td>
-                  <td style={{ marginRight: '10px' }}>11</td>
-                  <td style={{ marginRight: '10px' }}>12</td>
-                </tr> */}
-                {this.renderHangGhe()}
-                {/* <tr className='d-flex align-items-center flex-column'>
-                </tr> */}
-                {/* {this.renderHangDau()} */}
+                  {
+                    data.map((hangGhe, index) => {
+                      if (index == 0) {
+                        return (
+                          hangGhe.danhSachGhe.map((hangDau, index) => {
+                            if(index<=4){
+                              return (
+                                <td style={{ width: '45px' }} key={index}>{hangDau.soGhe}</td>
+                              )
+                            }
+                          })
+                        )
+                      }
+                    })
+                  }
+                  <td></td>
+                  {
+                      data.map((hangGhe, index) => {
+                        if (index == 0) {
+                          return (
+                            hangGhe.danhSachGhe.map((hangDau, index) => {
+                              if(index>4){
+                                return (
+                                  <td style={{ width: '45px' }} key={index}>{hangDau.soGhe}</td>
+                                )
+                              }
+                            })
+                          )
+                        }
+                      })
+                  }
 
-                {/* <td style={{ marginRight: '10px' }}>
-                  <input type="checkbox" value={'A1'} />
-                </td> */}
+                </tr>
+                {this.renderHangGhe()}
+                <tr style={{ height: '3rem' }}>
+                  <td></td>
+                </tr>
+                {this.renderHangGhe1()}
+              </tbody>
+            </table>
+            <div className="screenBox">
+              <h2>screen this way</h2>
+            </div>
+            <button className='btnConfirm'>confirm selection</button>
+          </div>
+          <div className="selected-seat mt-5">
+            <table className="yourSeat" style={{width:'100%',borderCollapse:'separate',borderSpacing:'0.25em 0.25em'}}>
+              <tbody>
+                <tr className='bg-white tableHead'>
+                  <th>Name</th>
+                  <th>Number of Seats</th>
+                  <th>Seats</th>
+                </tr>
+                <tr className='bg-white'>
+                  <td>
+                    <textarea id="nameInfo"  rows="2"></textarea>
+                  </td>
+                  <td>
+                    <textarea id="numberInfo" rows="2"></textarea>
+                  </td>
+                  <td>
+                    <textarea id="seatInfo" rows="2"></textarea>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
-          <div className="selected-seat"></div>
         </div>
       </div>
     )
