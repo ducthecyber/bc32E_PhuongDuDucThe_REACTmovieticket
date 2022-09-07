@@ -5,7 +5,7 @@ export default class HangGhe extends Component {
 
     state = {
         backgroundColor: 'white',
-        disabled: true,
+        disabled: this.props.active,
         gheDaChon: [],
     }
     //không sử dụng, không áp dụng backgroundColor được
@@ -32,29 +32,28 @@ export default class HangGhe extends Component {
         const index = list.findIndex((item) => item.soGhe === soGhe)
         const { gheDaChon } = this.state;
         const seatArr = this.props.soGhe;
-        const { soLuong } = this.props;
+        console.log(this.props.soLuongGheDat)
+        console.log(gheDaChon)
 
         if (index !== -1) {
             const indexDaChon = gheDaChon.findIndex(n => n === soGhe);
             if (indexDaChon == -1) {
                 this.setState({ gheDaChon: [...gheDaChon, soGhe] });
-                //seatArr là mảng ghế chọn để render dưới bảng
+                //seatArr là mảng ghế chọn để render dưới cuối trang
                 seatArr.push(soGhe)
             }
             else {
-                console.log(indexDaChon)
                 gheDaChon.splice(indexDaChon, 1);
                 this.setState({ gheDaChon: [...gheDaChon] });
-                //seatArr là mảng ghế chọn để render dưới bảng
+                //seatArr là mảng ghế chọn để render dưới cuối trang
                 seatArr.splice(indexDaChon, 1);
             }
         }
-        console.log(seatArr.length)
-        console.log(document.getElementById('soGhe').value)
-        if (Number(seatArr.length) === Number(document.getElementById('soGhe').value)) {
-            this.setState({active:true})
-            console.log('warning')
-            
+        if (this.props.soLuongGheDat == seatArr.length) {
+            this.props.changeActive()
+        }
+        if (this.props.soLuongGheDat - 1 > seatArr.length) {
+            this.props.remind()    
         }
     }
     renderGhe = () => {
@@ -119,7 +118,7 @@ export default class HangGhe extends Component {
 
     render() {
         // const { hangGhe } = this.props
-        console.log(this.state.gheDaChon)
+        // console.log(this.state.gheDaChon)
         return (
             <tr className='d-flex align-items-center mt-3'>
                 {this.renderHangGhe()}

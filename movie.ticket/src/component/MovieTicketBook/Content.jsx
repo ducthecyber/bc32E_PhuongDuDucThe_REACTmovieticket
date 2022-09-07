@@ -9,6 +9,7 @@ export default class Content extends Component {
     message: '',
     color: 'transparent',
     disable: true,
+    disableConfirm: true,
     thongTinDatVe:
     {
       hoTen: '',
@@ -16,6 +17,7 @@ export default class Content extends Component {
       soGhe: [],
     }
     ,
+    soLuongGheDat: 0
   }
 
 
@@ -42,9 +44,6 @@ export default class Content extends Component {
       alert(`You still have ${value.soLuong - data.length} seats left !`)
       return false
     }
-    else if (data.length === value.soLuong) {
-
-    }
 
     console.log(value)
     console.log(data)
@@ -62,6 +61,7 @@ export default class Content extends Component {
         color: 'green',
         disable: false,
       })
+
     }
     else {
       this.setState({
@@ -70,8 +70,15 @@ export default class Content extends Component {
         color: 'red',
       })
     }
-    console.log(info)
-    console.log(this.state.disable)
+    console.log(info, 'thong tin')
+    this.setState({ soLuongGheDat: document.getElementById('soGhe').value })
+    return false
+  }
+  changeActive = () => {
+    this.setState({ disable: true, disableConfirm: false })
+  }
+  remind = () => {
+    this.setState({ disableConfirm: false })
   }
 
   renderHangGhe = () => {
@@ -80,7 +87,7 @@ export default class Content extends Component {
         if (index >= 1 && index < 6) {
           return (
             <Fragment key={index} >
-              <HangGhe hangGhe={hangGhe} soHangGhe={index} soGhe={this.state.thongTinDatVe.soGhe} active={this.state.disable} />
+              <HangGhe remind={this.remind} changeActive={this.changeActive} soLuongGheDat={this.state.soLuongGheDat} hangGhe={hangGhe} soHangGhe={index} soGhe={this.state.thongTinDatVe.soGhe} active={this.state.disable} />
             </Fragment>
           )
         }
@@ -93,7 +100,7 @@ export default class Content extends Component {
         if (index >= 6) {
           return (
             <Fragment key={index} >
-              <HangGhe hangGhe={hangGhe} soHangGhe={index} soGhe={this.state.thongTinDatVe.soGhe} active={this.state.disable} />
+              <HangGhe remind={this.remind} changeActive={this.changeActive} soLuongGheDat={this.state.soLuongGheDat} hangGhe={hangGhe} soHangGhe={index} soGhe={this.state.thongTinDatVe.soGhe} active={this.state.disable} />
             </Fragment>
           )
         }
@@ -102,7 +109,7 @@ export default class Content extends Component {
   }
 
   render() {
-
+    console.log(this.state.disable, 'mở khóa button');
     const seat = this.state.thongTinDatVe
     return (
       <div className='container'>
@@ -185,7 +192,7 @@ export default class Content extends Component {
             <div className="screenBox">
               <h2>screen this way</h2>
             </div>
-            <button className='btnConfirm' disabled={this.state.disable} onClick={() => { this.confirmSelection(seat) }}>confirm selection</button>
+            <button className='btnConfirm' disabled={this.state.disableConfirm} onClick={() => { this.confirmSelection(seat) }}>confirm selection</button>
           </div>
 
           <div className="selected-seat mt-5">
