@@ -1,37 +1,39 @@
 import React, { Component, Fragment } from 'react'
-import takeData from './index';
+import { connect } from 'react-redux';
 
-export default class HangGhe extends Component {
+class HangGhe extends Component {
 
     state = {
         backgroundColor: 'white',
-        disabled: this.props.active,
         gheDaChon: [],
     }
     //không sử dụng, không áp dụng backgroundColor được
-    colorChange = (seatClick) => {
+    // colorChange = (seatClick) => {
 
-        const list = this.props.hangGhe.danhSachGhe;
-        const index = list.findIndex((item) => item.soGhe === seatClick.soGhe)
+    //     const list = this.props.hangGhe.danhSachGhe;
+    //     const index = list.findIndex((item) => item.soGhe === seatClick.soGhe)
 
-        // const newBackgroundColor = this.state.backgroundColor == 'white' ? 'green' : 'white';
-        if (index !== -1) {
-            // this.setState({ backgroundColor: newBackgroundColor });
-        }
-        // console.log('index', index)
-        const { soGhe } = this.props
-        soGhe.push(seatClick.soGhe)
+    //     // const newBackgroundColor = this.state.backgroundColor == 'white' ? 'green' : 'white';
+    //     if (index !== -1) {
+    //         // this.setState({ backgroundColor: newBackgroundColor });
+    //     }
+    //     // console.log('index', index)
+    //     const { soGhe } = this.props
+    //     soGhe.push(seatClick.soGhe)
 
-        // console.log('ghe dang chon',soGhe)
+    //     // console.log('ghe dang chon',soGhe)
 
-        return soGhe
-    }
+    //     return soGhe
+    // }
 
     chonGhe = (soGhe) => {
         const list = this.props.hangGhe.danhSachGhe;
         const index = list.findIndex((item) => item.soGhe === soGhe)
         const { gheDaChon } = this.state;
         const seatArr = this.props.soGhe;
+        // console.log(this.props.soLuongGheDat)
+        // console.log(gheDaChon)
+
         if (index !== -1) {
             const indexDaChon = gheDaChon.findIndex(n => n === soGhe);
             if (indexDaChon == -1) {
@@ -50,19 +52,19 @@ export default class HangGhe extends Component {
             this.props.changeActive()
         }
         if (this.props.soLuongGheDat - 1 > seatArr.length) {
-            this.props.remind()    
+            this.props.remind()
         }
     }
     renderGhe = () => {
-        const { active } = this.props
-        const { gheDaChon } = this.state;
-
+        const { seat, chonGhe, listGhe } = this.props
+        const active = seat.disable;
+        // const { gheDaChon } = this.state;
         return (
             this.props.hangGhe.danhSachGhe.map((ghe, index) => {
 
                 let cssGheDaDat = '';
                 let disabled = active;
-                const indexDaChon = gheDaChon.findIndex(n => n == ghe.soGhe);
+                const indexDaChon = listGhe.findIndex(n => n == ghe.soGhe);
 
                 if (ghe.daDat) {
                     cssGheDaDat = 'gheDuocChon';
@@ -73,7 +75,7 @@ export default class HangGhe extends Component {
 
                     return (
                         <td style={{ marginRight: '10px' }} key={index}>
-                            <button style={{ backgroundColor: indexDaChon !== -1 ? "green" : "white" }} onClick={() => { this.chonGhe(ghe.soGhe) }} className={`ghe ${cssGheDaDat}`} disabled={disabled} type="button" value={ghe.soGhe} />
+                            <button style={{ backgroundColor: indexDaChon !== -1 ? "green" : "white" }} onClick={() => { chonGhe(ghe.soGhe) }} className={`ghe ${cssGheDaDat}`} disabled={disabled} type="button" value={ghe.soGhe} />
                         </td>
                     )
                 }
@@ -81,12 +83,12 @@ export default class HangGhe extends Component {
         )
     }
     renderGhe1 = () => {
-        const { active } = this.props
-        const { gheDaChon } = this.state;
-
+        const { seat, chonGhe, listGhe } = this.props
+        const active = seat.disable;
+        // const { gheDaChon } = this.state;
         return (
             this.props.hangGhe.danhSachGhe.map((ghe, index) => {
-                const indexDaChon = gheDaChon.findIndex(n => n == ghe.soGhe);
+                const indexDaChon = listGhe.findIndex(n => n == ghe.soGhe);
 
                 let cssGheDaDat = '';
                 let disabled = active;
@@ -97,7 +99,8 @@ export default class HangGhe extends Component {
                 if (index >= 5) {
                     return (
                         <td style={{ marginRight: '10px' }} key={index}>
-                            <button className={`ghe ${cssGheDaDat}`} style={{ backgroundColor: indexDaChon !== -1 ? "green" : "white" }} onClick={() => this.chonGhe(ghe.soGhe)} disabled={disabled} type="checkbox" value={ghe.soGhe} />
+                            <button className={`ghe ${cssGheDaDat}`} style={{ backgroundColor: indexDaChon !== -1 ? "green" : "white" }} onClick={() => chonGhe(ghe.soGhe)
+                            } disabled={disabled} type="checkbox" value={ghe.soGhe} />
                         </td>
                     )
                 }
@@ -126,3 +129,21 @@ export default class HangGhe extends Component {
         )
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        chonGhe: (seatName) => {
+            dispatch({
+                type: 'SELECTED_SEAT',
+                payload: seatName,
+            })
+        }
+    }
+}
+const mapStateToProps = (rootReducer) => {
+    return {
+        seat: rootReducer.movieTicket.ticketPage,
+        listGhe: rootReducer.movieTicket.listGheDangDat
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(HangGhe)
