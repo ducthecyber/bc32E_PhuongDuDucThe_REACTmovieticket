@@ -72,12 +72,26 @@ export const movieTicket = (state = stateDefault, action) => {
                 console.log(state.ticketPage.disableConfirm)
             }
             state.listGheDangDat = listGheDangDatUpdate;
+
+            let array = []
+
+            if (state.listGheDangDat.length +1 === Number(document.getElementById('soGhe').value)) {
+                console.log('ai day')
+                data.forEach((value, index) => {
+                    value.danhSachGhe.forEach((val, idx) => {
+                        array.push(val.soGhe)
+                        let result = array.find(item => item === action.payload)
+                        console.log(result,'result')
+                    })
+                })
+            }
+
             return { ...state }
         };
 
         case 'SEAT_ORDER': {
-            const seatMovie = [...state.listGheDangDat]
-            seatMovie.push(action.payload)
+            const seatMovie = state.listGheDangDat
+            console.log(seatMovie)
             const selected = () => {
                 let text = ''
                 //tách mảng ra từng phần tử để render ra giao diện, mỗi value là 1 ghế
@@ -87,15 +101,25 @@ export const movieTicket = (state = stateDefault, action) => {
                 return text
             }
             const gheChon = selected()
-            console.log(gheChon, 'ghechon')
-            const seat =state.ticketPage.thongTinDatVe
+            const seat = state.ticketPage.thongTinDatVe
             seat.hoTen = document.getElementById('hoTen').value;
             seat.soLuong = document.getElementById('soGhe').value;
             seat.soGhe = gheChon;
-            state.listGheDangDat = seatMovie;
+            if (seatMovie.length < seat.soLuong) {
+                alert(`You have ${seat.soLuong - seatMovie.length} left`)
+            }
+
+            let array = []
+            if (seatMovie.length == seat.soLuong) {
+                data.forEach((value, index) => {
+                    value.danhSachGhe.forEach((val, idx) => {
+                        array.push(val.soGhe)
+                    })
+                })
+            }
+
             return { ...state }
         }
-
         default: return state
     }
 }
