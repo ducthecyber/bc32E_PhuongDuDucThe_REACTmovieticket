@@ -32,7 +32,7 @@ class HangGhe extends Component {
         const { gheDaChon } = this.state;
         const seatArr = this.props.soGhe;
         // console.log(this.props.soLuongGheDat)
-        // console.log(gheDaChon)
+
 
         if (index !== -1) {
             const indexDaChon = gheDaChon.findIndex(n => n === soGhe);
@@ -58,7 +58,7 @@ class HangGhe extends Component {
     renderGhe = () => {
         const { seat, chonGhe, listGhe } = this.props
         const active = seat.disable;
-        // const { gheDaChon } = this.state;
+        // console.log(listGhe, 'listGHEdangdat')
         return (
             this.props.hangGhe.danhSachGhe.map((ghe, index) => {
 
@@ -68,9 +68,12 @@ class HangGhe extends Component {
 
                 if (ghe.daDat) {
                     cssGheDaDat = 'gheDuocChon';
-                    disabled = true;
                 }
-
+                if (listGhe.length === seat.thongTinDatVe.soLuong) {
+                    if (ghe.daDat !== true) {
+                        disabled = listGhe.findIndex(item => item == ghe.soGhe) == -1 ? true : false;
+                    }
+                }
                 if (index >= 0 && index < 5) {
 
                     return (
@@ -85,7 +88,6 @@ class HangGhe extends Component {
     renderGhe1 = () => {
         const { seat, chonGhe, listGhe } = this.props
         const active = seat.disable;
-        // const { gheDaChon } = this.state;
         return (
             this.props.hangGhe.danhSachGhe.map((ghe, index) => {
                 const indexDaChon = listGhe.findIndex(n => n == ghe.soGhe);
@@ -94,8 +96,14 @@ class HangGhe extends Component {
                 let disabled = active;
                 if (ghe.daDat) {
                     cssGheDaDat = 'gheDuocChon';
-                    disabled = true;
                 }
+
+                if (listGhe.length === seat.thongTinDatVe.soLuong) {
+                    if (ghe.daDat !== true) {
+                        disabled = listGhe.findIndex(item => item == ghe.soGhe) == -1 ? true : false;
+                    }
+                }
+
                 if (index >= 5) {
                     return (
                         <td style={{ marginRight: '10px' }} key={index}>
@@ -117,8 +125,6 @@ class HangGhe extends Component {
     }
 
     render() {
-        // const { hangGhe } = this.props
-        // console.log(this.state.gheDaChon)
         return (
             <tr className='d-flex align-items-center mt-3'>
                 {this.renderHangGhe()}
@@ -143,7 +149,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (rootReducer) => {
     return {
         seat: rootReducer.movieTicket.ticketPage,
-        listGhe: rootReducer.movieTicket.listGheDangDat
+        listGhe: rootReducer.movieTicket.listGheDangDat,
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(HangGhe)

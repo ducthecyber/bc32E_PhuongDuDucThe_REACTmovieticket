@@ -9,75 +9,21 @@ class Content extends Component {
     opacity: 0,
     message: '',
     color: 'transparent',
-    // disable: true,
-    // disableConfirm: true,
-    // thongTinDatVe:
-    // {
-    //   hoTen: '',
-    //   soLuong: '',
-    //   soGhe: [],
-    // }
-    // ,
-    // soLuongGheDat: 0
   }
 
-
-  confirmSelection = (thongTinNguoiDung) => {
-    //mảng những cái ghế đã chọn
-    const data = [...this.state.thongTinDatVe.soGhe]
-    const selected = () => {
-      let text = ''
-      //tách mảng ra từng phần tử để render ra giao diện, mỗi value là 1 ghế
-      for (let value of data) {
-        text += value + ' ';
-      }
-      return text
-    }
-    const gheChon = selected()
-
-    const value = {
-      ...thongTinNguoiDung,
-      hoTen: document.getElementById('hoTen').value,
-      soLuong: document.getElementById('soGhe').value,
-      soGhe: gheChon,
-    }
-    if (data.length < value.soLuong) {
-      alert(`You still have ${value.soLuong - data.length} seats left !`)
-      return false
-    }
-
-    this.setState({
-      thongTinDatVe: value
-    })
-  }
-
-  // handleStart = () => {
-  //   console.log('adddđ')
-  //   let info = takeData()
-  //   if (info === true) {
-  //     this.setState({
-  //       opacity: 1,
-  //       message: 'Thank you. Continue select your seats!',
-  //       color: 'green',
-  //     })
-
-  //   }
-  //   else {
-  //     this.setState({
-  //       opacity: 1,
-  //       message: 'Oops! Please fill out your information !',
-  //       color: 'red',
-  //     })
-  //   }
-  //   console.log(info, 'thong tin')
-  //   // this.setState({ soLuongGheDat: document.getElementById('soGhe').value })
-  //   return false
-  // }
   changeActive = () => {
     this.setState({ disable: true, disableConfirm: false })
   }
   remind = () => {
     this.setState({ disableConfirm: false })
+  }
+
+  updateState = (qtyInput, select) => {
+    console.log(qtyInput)
+    console.log(select.length)
+    if (+qtyInput === +select.length) {
+      this.setState({})
+    }
   }
 
   renderHangGhe = () => {
@@ -110,9 +56,8 @@ class Content extends Component {
   }
 
   render() {
-    const { ticket, handleStart, confirmSelection } = this.props;
+    const { ticket, handleStart, confirmSelection, listSeat } = this.props;
     const seat = ticket.thongTinDatVe
-    console.log(seat,'seat')
     return (
       <div className='container'>
         <div className="inner-content">
@@ -194,7 +139,7 @@ class Content extends Component {
             <div className="screenBox">
               <h2>screen this way</h2>
             </div>
-            <button className='btnConfirm' disabled={false} onClick={() => { console.log('alo alo'); confirmSelection(seat) }}>confirm selection</button>
+            <button className='btnConfirm' disabled={false} onClick={() => { confirmSelection(seat); this.updateState(ticket.thongTinDatVe.soLuong, listSeat); }}>confirm selection</button>
           </div>
 
           <div className="selected-seat mt-5">
@@ -206,14 +151,17 @@ class Content extends Component {
                   <th>Seats</th>
                 </tr>
                 <tr className='bg-white'>
-                  <td>{seat.hoTen}
-                    <textarea id="nameInfo" rows="2"></textarea>
+                  <td>
+                    <textarea className='text-center text-capitalize' id="nameInfo" rows="2" defaultValue={seat.hoTen}>
+                    </textarea>
                   </td>
-                  <td>{seat.soLuong}
-                    <textarea id="numberInfo" rows="2"></textarea>
+                  <td>
+                    <textarea className='text-center' id="numberInfo" rows="2" defaultValue={seat.soLuong} >
+                    </textarea>
                   </td>
-                  <td>{seat.soGhe}
-                    <textarea id="seatInfo" rows="2"></textarea>
+                  <td>
+                    <textarea className='text-center' id="seatInfo" rows="2" defaultValue={seat.soGhe} >
+                    </textarea>
                   </td>
                 </tr>
               </tbody>
@@ -248,6 +196,7 @@ const mapDispatchToProps = (dispatch) => {
       })
     },
     confirmSelection: (seatOrder) => {
+
       dispatch({
         type: 'SEAT_ORDER',
         payload: seatOrder,
@@ -260,6 +209,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (rootReducer) => {
   return {
     ticket: rootReducer.movieTicket.ticketPage,
+    listSeat: rootReducer.movieTicket.listGheDangDat,
   }
 }
 

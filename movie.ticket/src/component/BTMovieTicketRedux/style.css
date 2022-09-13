@@ -358,6 +358,7 @@ table.yourSeat textarea{
     transition: all 0.5s ease-in-out;
 }
 
-.selecting{
-    
+textarea {
+    text-align: justify;
+    white-space: normal;
 }
