@@ -6,6 +6,7 @@ class HangGhe extends Component {
     state = {
         backgroundColor: 'white',
         gheDaChon: [],
+      
     }
     //không sử dụng, không áp dụng backgroundColor được
     // colorChange = (seatClick) => {

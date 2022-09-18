@@ -9,6 +9,12 @@ class Content extends Component {
     opacity: 0,
     message: '',
     color: 'transparent',
+    thongTinDatVe:
+    {
+      hoTen: '',
+      soLuong: '',
+      soGhe: [],
+    }
   }
 
   changeActive = () => {
@@ -139,7 +145,11 @@ class Content extends Component {
             <div className="screenBox">
               <h2>screen this way</h2>
             </div>
-            <button className='btnConfirm' disabled={false} onClick={() => { confirmSelection(seat); this.updateState(ticket.thongTinDatVe.soLuong, listSeat); }}>confirm selection</button>
+            <button className='btnConfirm' disabled={false} onClick={() => {
+               confirmSelection(seat);
+                this.updateState(ticket.thongTinDatVe.soLuong, listSeat); 
+                this.setState({thongTinDatVe:ticket.thongTinDatVe})
+                }}>confirm selection</button>
           </div>
 
           <div className="selected-seat mt-5">
@@ -156,7 +166,7 @@ class Content extends Component {
                     </textarea>
                   </td>
                   <td>
-                    <textarea className='text-center' id="numberInfo" rows="2" defaultValue={seat.soLuong} >
+                    <textarea className='text-center' id="numberInfo" rows="2" defaultValue={this.state.thongTinDatVe.soLuong} >
                     </textarea>
                   </td>
                   <td>
